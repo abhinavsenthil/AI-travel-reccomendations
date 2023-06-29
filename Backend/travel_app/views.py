@@ -9,6 +9,24 @@ def get_twitter_api():
     api = tweepy.API(auth)
     return api
 
+def get_tweets(request):
+    # Get the location from the request
+    location = request.GET.get('location')
+
+    # Get the Twitter API instance
+    api = get_twitter_api()
+
+    try:
+        # Fetch tweets from the specified location
+        tweets = api.search(q=location, count=10)
+
+        # Process the tweets as needed
+
+        # Return the JSON response
+        return JsonResponse({'tweets': tweets})
+    except tweepy.TweepError as e:
+        # Handle any errors that occur during the API request
+        return JsonResponse({'error': str(e)})
 
 
 # Create your views here.
